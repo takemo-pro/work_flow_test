@@ -1,0 +1,7 @@
+services:
+  app:
+    container_name: php_work_sample_container
+    image: php:8.1-cli
+    volumes:
+      - ./backend:/work
+    working_dir: /work
