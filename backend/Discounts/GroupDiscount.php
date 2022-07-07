@@ -21,9 +21,6 @@ class GroupDiscount extends \BaseDiscount
     /** @var int|float 割引額 or 割引率 */
     protected static int|float $amount = 0.1;
 
-    /** @var Request リクエスト */
-    private Request $request;
-
     public function canDiscount(int $value) :bool
     {
         return count($this->request->getCustomers()) >= 10;

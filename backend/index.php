@@ -1,14 +1,15 @@
 <?php
 require "./Request.php";
+require "./Response.php";
 
 //get custom Parameters
 $request = Request::getInputs();
-var_dump($request);
 
-//discount prices
-$response = new Response;
+//Discount
+$customers = $request->getCustomers();
+$customers->processDiscount($request);
 
 //result
+$response = new Response($customers);
 $response->render();
-
 exit;

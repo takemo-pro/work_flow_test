@@ -23,9 +23,6 @@ class HolidayDiscount extends \BaseDiscount
     /** @var int|float 割引額 or 割引率 */
     protected static int|float $amount = -200;
 
-    /** @var Request リクエスト */
-    private Request $request;
-
     public function canDiscount(int $value) :bool
     {
         //https://www.php.net/manual/ja/datetime.format.php

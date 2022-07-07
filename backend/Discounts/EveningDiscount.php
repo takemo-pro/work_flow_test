@@ -2,6 +2,7 @@
 
 namespace Discounts;
 
+require_once "BaseDiscount.php";
 
 use Request;
 
@@ -22,9 +23,6 @@ class EveningDiscount extends \BaseDiscount
 
     /** @var int|float 割引額 or 割引率 */
     protected static int|float $amount = 100;
-
-    /** @var Request リクエスト */
-    private Request $request;
 
     public function canDiscount(int $value) :bool
     {

@@ -5,27 +5,21 @@
  */
 class Response
 {
-    /** @var CustomerUnit[]  */
-    public array $customers;
+    /** @var Customers  */
+    public Customers $customers;
 
-    /**
-     * 割引前合計金額を算出
-     */
-    public function getTotalBasePrice()
+    public function __construct(Customers $customers)
     {
-        $price = 0;
-        foreach($this->customers as $customer)
-        {
-            $price += $customer->getzb;
-        }
-    }
-
-    public function __construct(array $customerUnits)
-    {
-        $this->customers = $customerUnits;
+        $this->customers = $customers;
     }
 
     public function render()
     {
+        echo "割引前合計金額".PHP_EOL;
+        echo $this->customers->getBasePrice() . PHP_EOL;
+        echo "割引合計金額".PHP_EOL;
+        echo $this->customers->getDiscountPrice() . PHP_EOL;
+        echo "合計金額".PHP_EOL;
+        echo $this->customers->getTotalPrice() . PHP_EOL;
     }
 }

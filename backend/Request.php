@@ -5,6 +5,7 @@ require_once "./Requests/CustomerType.php";
 require_once "./Requests/Integer.php";
 require_once "./Requests/PriceType.php";
 require_once "./CustomerUnit.php";
+require_once "./Customers.php";
 
 use Requests\CustomerType;
 use Requests\Integer;
@@ -13,9 +14,9 @@ use Requests\Validatable;
 
 class Request
 {
-    /** @var CustomerUnit[] 顧客の種類・人数  */
-    private array $customers = [];
-    public function getCustomers(): array
+    /** @var Customers 顧客の種類・人数  */
+    private Customers $customers;
+    public function getCustomers() :Customers
     {
         return $this->customers;
     }
@@ -90,17 +91,21 @@ class Request
     {
         //note: price master
         $priceList = require_once "./price_table.php";
+        $customers = [];
         foreach(CustomerType::getLocalizedArray() as $label => $customerType){
             $customerCount = $this->ask("{$label}の人数を設定してください(整数)", Integer::class);
             for($i=$customerCount;$i>0;$i--)
             {
-                $this->customers[] = new CustomerUnit(
+                $customers[] = new CustomerUnit(
                     priceType: $this->priceType,
                     customerType: $customerType,
-                    basePrice: $priceList[$customerType][$this->priceType],
-                    request: $this
                 );
             }
         }
+        if(empty($customers)){
+            echo "1人も入力されなかったため、処理を終了します".PHP_EOL;
+            exit;
+        }
+        $this->customers = new Customers($customers);
     }
 }
