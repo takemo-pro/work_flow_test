@@ -10,7 +10,7 @@ class CustomerType extends BaseEnum implements Validatable
     public const CHILD="1";
     public const SENIOR="2";
 
-    public static function getSelectArray(): array
+    public static function getLocalizedArray(): array
     {
         $result = [];
         foreach(self::getKeyValues() as $key => $val){

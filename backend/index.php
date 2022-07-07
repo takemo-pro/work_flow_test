@@ -5,10 +5,10 @@ require "./Request.php";
 $request = Request::getInputs();
 var_dump($request);
 
-//create customers object
-
 //discount prices
+$response = new Response;
 
 //result
+$response->render();
 
 exit;

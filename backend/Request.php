@@ -4,30 +4,23 @@ require_once "./Requests/BaseEnum.php";
 require_once "./Requests/CustomerType.php";
 require_once "./Requests/Integer.php";
 require_once "./Requests/PriceType.php";
+require_once "./CustomerUnit.php";
 
 use Requests\CustomerType;
 use Requests\Integer;
 use Requests\PriceType;
 use Requests\Validatable;
 
-/**
- * note:
- *  - 客層
- *  - 人数(客層に依存)
- *  - 料金タイプ
- *  - 時間
- *  - 日程(休日割,月水割)
- */
 class Request
 {
-    /** @var array 顧客の種類・人数  */
+    /** @var CustomerUnit[] 顧客の種類・人数  */
     private array $customers = [];
     public function getCustomers(): array
     {
         return $this->customers;
     }
 
-    /** @var string 料金タイプ */
+    /** @var string 料金タイプ note:全体統一か個別適用か不明だったためRequest,CustomerUnit双方に実装 */
     private string $priceType;
     public function getPriceType(): string
     {
@@ -50,15 +43,11 @@ class Request
     public static function getInputs(): Request
     {
         $self = new self;
-        foreach(CustomerType::getSelectArray() as $name => $value){
-            $customerCount = $self->ask("{$name}の人数を設定してください(整数)", Integer::class);
-            $self->customers[$value] = $customerCount;
-        }
 
-        $self->priceType = $self->ask("通常料金か特別料金か選択してください(通常:0,特別:1)",PriceType::class);
+        $self->priceType = $self->ask("料金タイプを選択してください(通常:0,特別:1)",PriceType::class);
+        $self->setCustomers();
 
-        $self->datetime = new DateTime('now');
-        $self->datetime->setTimezone(new DateTimeZone('Asia/Tokyo'));
+        $self->datetime = (new DateTime('now'))->setTimezone(new DateTimeZone('Asia/Tokyo'));
 
         return $self;
     }
@@ -70,7 +59,7 @@ class Request
      * @param string|null $validator
      * @return string
      */
-    public function ask($message,string $validator = null) :string
+    private function ask($message,string $validator = null) :string
     {
         echo $message.PHP_EOL;
 
@@ -93,6 +82,24 @@ class Request
                 }
             }else{
                 return $input;
+            }
+        }
+    }
+
+    private function setCustomers()
+    {
+        //note: price master
+        $priceList = require_once "./price_table.php";
+        foreach(CustomerType::getLocalizedArray() as $label => $customerType){
+            $customerCount = $this->ask("{$label}の人数を設定してください(整数)", Integer::class);
+            for($i=$customerCount;$i>0;$i--)
+            {
+                $this->customers[] = new CustomerUnit(
+                    priceType: $this->priceType,
+                    customerType: $customerType,
+                    basePrice: $priceList[$customerType][$this->priceType],
+                    request: $this
+                );
             }
         }
     }
