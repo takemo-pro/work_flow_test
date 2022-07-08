@@ -9,6 +9,14 @@ trait Discountable
     /** @var array 割引明細 */
     private array $discountDetails = [];
 
+    /**
+     * @return DiscountDetail[]
+     */
+    public function getDiscountDetails(): array
+    {
+        return $this->discountDetails;
+    }
+
     private function createDiscountDetail(BaseDiscount $ruleObject)
     {
         if($ruleObject->canDiscount($this->getBasePrice())){
@@ -38,7 +46,13 @@ trait Discountable
         $discountPrice = 0;
         /** @var DiscountDetail $discountDetail */
         foreach($this->discountDetails as $discountDetail) {
-            $discountPrice += $discountDetail->discountPrice;
+            $discountPrice += $discountDetail->getDiscountPrice();
+        }
+        foreach($this->getCustomerUnits() as $customerUnit)
+        {
+            foreach($customerUnit->getDiscountDetails() as $discountDetail){
+                $discountPrice += $discountDetail->getDiscountPrice();
+            }
         }
         return $discountPrice;
     }

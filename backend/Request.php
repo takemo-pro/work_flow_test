@@ -48,7 +48,7 @@ class Request
         $self->priceType = $self->ask("料金タイプを選択してください(通常:0,特別:1)",PriceType::class);
         $self->setCustomers();
 
-        $self->datetime = (new DateTime('now'))->setTimezone(new DateTimeZone('Asia/Tokyo'));
+        $self->datetime = (new DateTime('tomorrow'))->setTimezone(new DateTimeZone('Asia/Tokyo'));
 
         return $self;
     }

@@ -10,6 +10,10 @@ class Customers implements Countable
 
     /** @var CustomerUnit[] */
     private array $customerUnits;
+    public function getCustomerUnits(): array
+    {
+        return $this->customerUnits;
+    }
 
     public function count(): int
     {

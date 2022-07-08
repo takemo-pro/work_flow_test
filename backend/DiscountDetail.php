@@ -7,8 +7,24 @@ class DiscountDetail
      * @param int $discountPrice 割引額
      */
     public function __construct(
-        public string $discountName,
-        public int $discountPrice,
+        private string $discountName,
+        private int $discountPrice,
     ){}
+
+    /**
+     * @return int
+     */
+    public function getDiscountPrice(): int
+    {
+        return $this->discountPrice;
+    }
+
+    /**
+     * @return string
+     */
+    public function getDiscountName(): string
+    {
+        return $this->discountName;
+    }
 
 }
