@@ -10,7 +10,7 @@ class AdmissionDatetime implements Validatable
     public static function validate($value): bool
     {
         try{
-            return (new \DateTime('now')) <= (new \Datetime($value));
+            return (bool)new \DateTime($value);
         }catch(\Exception $e){
             return false;
         }

@@ -1,16 +1,16 @@
-#ワークサンプルテスト
+# ワークサンプルテスト
 
-##課題1
-###動作環境
+## 課題1
+### 動作環境
 PHP8.0
 
-###使い方
+### 使い方
 docker,docker-compose環境で
 
 ``` docker-compose run app php index.php ```
 
 
-###仕様Q&A
+### 仕様Q&A
 
 -----------
 Q.割引額の計算方法
@@ -66,6 +66,10 @@ A. PHP,PHP_extension以外は導入しない(composerやphpunit,外部パッケ�
 
 -----------
 
-##課題2
+### テスト結果
+TestResult.mdにまとめています。
+
+## 課題2
 資料はGoogle Docにまとめましたので下記リンクをご覧ください
+
 https://docs.google.com/document/d/1ZkK-9RJ97RzdePY48lyhuRhKZCaUi12lptve0tfQuZ8/edit?usp=sharing

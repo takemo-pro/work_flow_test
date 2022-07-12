@@ -40,7 +40,6 @@ class Request
      * 入力を受け取る
      *
      * @return Request
-     * @throws InvalidArgumentException
      */
     public static function getInputs(): Request
     {
@@ -49,6 +48,7 @@ class Request
         $self->priceType = $self->ask("料金タイプを選択してください(通常:0,特別:1)",PriceType::class);
         $self->setCustomers();
 
+        //note: validatorで日時の検証をしているのでDatetimeコンストラクタの例外は無視可能
         $self->datetime = (new DateTime(
             $self->ask('日時を選択してください(未入力で現在)',\Requests\AdmissionDatetime::class)
         ))->setTimezone(new DateTimeZone('Asia/Tokyo'));
