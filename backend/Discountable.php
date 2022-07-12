@@ -17,7 +17,7 @@ trait Discountable
         return $this->discountDetails;
     }
 
-    private function createDiscountDetail(BaseDiscount $ruleObject)
+    private function createDiscountDetail(BaseDiscount $ruleObject) :void
     {
         if($ruleObject->canDiscount($this->getBasePrice())){
             if($ruleObject::getDiscountType() === DiscountType::AMOUNT){

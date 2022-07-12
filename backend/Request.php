@@ -3,6 +3,7 @@
 require_once "./Requests/BaseEnum.php";
 require_once "./Requests/CustomerType.php";
 require_once "./Requests/Integer.php";
+require_once "./Requests/AdmissionDatetime.php";
 require_once "./Requests/PriceType.php";
 require_once "./CustomerUnit.php";
 require_once "./Customers.php";
@@ -48,7 +49,9 @@ class Request
         $self->priceType = $self->ask("料金タイプを選択してください(通常:0,特別:1)",PriceType::class);
         $self->setCustomers();
 
-        $self->datetime = (new DateTime('tomorrow'))->setTimezone(new DateTimeZone('Asia/Tokyo'));
+        $self->datetime = (new DateTime(
+            $self->ask('日時を選択してください(未入力で現在)',\Requests\AdmissionDatetime::class)
+        ))->setTimezone(new DateTimeZone('Asia/Tokyo'));
 
         return $self;
     }
